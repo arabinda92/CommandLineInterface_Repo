@@ -1,4 +1,6 @@
 
+import picocli.CommandLine;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,10 +16,12 @@ import java.util.logging.Logger;
 /**
  * Driver class for CLI
  */
-public class CLIParameters {
+@CommandLine.Command(subcommands = {CountCommand.class})
+public class CLIParameters implements Runnable{
   static Logger log = Logger.getLogger(CLIParameters.class.getName());
   private static final String CSV_FILE_PATH = "src/main/resources/events.csv";
   public static void main(String[] args) {
+      CommandLine.run(new CLIParameters(), args);
       List<CSVModel> csvList = readCsvDataFromCSV(CSV_FILE_PATH);
       for (CSVModel csvModel:csvList) {
         //To do : Save model data
@@ -69,5 +73,10 @@ public class CLIParameters {
     String location = attributes[11];
     return new CSVModel(uuid, tstamp, source, date, event_type, event_category,
       event_action, event_label, event_value, created_at, last_updated_at, location);
+  }
+
+  @Override
+  public void run() {
+    System.out.println("Inside main command");
   }
 }
