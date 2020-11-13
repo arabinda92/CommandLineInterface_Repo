@@ -6,9 +6,9 @@ import java.util.Date;
  */
 public class CSVModel {
   private String uuid;
-  private String tstamp;
+  private LocalDateTime tstamp;
   private String source;
-  private String date;
+  private Date date;
   private String event_type;
   private String event_category;
   private String event_action;
@@ -22,7 +22,7 @@ public class CSVModel {
 
   }
 
-  public CSVModel(String uuid, String tstamp, String source, String date, String event_type,
+  public CSVModel(String uuid, LocalDateTime tstamp, String source, Date date, String event_type,
                   String event_category, String event_action, String event_label, Long event_value,
                   LocalDateTime created_at, LocalDateTime last_updated_at, String location) {
     this.uuid = uuid;
@@ -47,11 +47,11 @@ public class CSVModel {
     this.uuid = uuid;
   }
 
-  public String getTstamp() {
+  public LocalDateTime getTstamp() {
     return tstamp;
   }
 
-  public void setTstamp(String tstamp) {
+  public void setTstamp(LocalDateTime tstamp) {
     this.tstamp = tstamp;
   }
 
@@ -63,11 +63,11 @@ public class CSVModel {
     this.source = source;
   }
 
-  public String getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(String date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 
