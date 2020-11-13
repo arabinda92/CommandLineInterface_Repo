@@ -9,10 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+
 /**
  * Driver class for CLI
  */
 public class CLIParameters {
+  static Logger log = Logger.getLogger(CLIParameters.class.getName());
   private static final String CSV_FILE_PATH = "src/main/resources/events.csv";
   public static void main(String[] args) {
       List<CSVModel> csvList = readCsvDataFromCSV(CSV_FILE_PATH);
@@ -25,9 +28,10 @@ public class CLIParameters {
   /**
    * This methos parse the csv data
    * @param fileName
-   * @return
+   * @return List of model objects
    */
   private static List<CSVModel> readCsvDataFromCSV(String fileName) {
+    log.info("This method will parse csv data ");
     List<CSVModel> list = new ArrayList<>();
     Path pathToFile = Paths.get(fileName);
     try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
@@ -47,11 +51,12 @@ public class CLIParameters {
   /**
    * This method will map csv data
    * @param attributes
-   * @return
+   * @return model object
    */
   private static CSVModel createCSVObj(String[] attributes) {
+    log.info("This method map csv data to pojo object");
     String uuid = attributes[0];
-    String tstamp = attributes[1];
+    LocalDateTime tstamp = LocalDateTime.parse(attributes[1]);
     String source = attributes[2];
     String date = attributes[3];
     String event_type = attributes[4];

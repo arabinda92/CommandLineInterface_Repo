@@ -1,28 +1,59 @@
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Pojo class for CSV data
+ * Entity Pojo class for CSV data
  */
 public class CSVModel {
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(updatable = false, nullable = false)
   private String uuid;
+
+  @Column (name = "tstamp")
   private LocalDateTime tstamp;
+
+  @Column (name = "source")
   private String source;
-  private Date date;
+
+  @Column (name = "date")
+  private String date;
+
+  @Column (name = "event_type")
   private String event_type;
+
+  @Column (name = "event_category")
   private String event_category;
+
+  @Column (name = "event_action")
   private String event_action;
+
+  @Column (name = "event_label")
   private String event_label;
+
+  @Column (name = "event_value")
   private Long event_value;
+
+  @Column (name = "created_at")
   private LocalDateTime created_at;
+
+  @Column (name = "last_updated_at")
   private LocalDateTime last_updated_at;
+
+  @Column (name = "location")
   private String location;
 
   public CSVModel() {
 
   }
 
-  public CSVModel(String uuid, LocalDateTime tstamp, String source, Date date, String event_type,
+  public CSVModel(String uuid, LocalDateTime tstamp, String source, String date, String event_type,
                   String event_category, String event_action, String event_label, Long event_value,
                   LocalDateTime created_at, LocalDateTime last_updated_at, String location) {
     this.uuid = uuid;
@@ -63,11 +94,11 @@ public class CSVModel {
     this.source = source;
   }
 
-  public Date getDate() {
+  public String getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
+  public void setDate(String date) {
     this.date = date;
   }
 
