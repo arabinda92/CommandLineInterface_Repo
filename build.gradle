@@ -41,30 +41,20 @@ dependencies {
     implementation "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springVersion}"
-
+    compile 'org.springframework.shell:spring-shell-starter:2.0.0.RELEASE'
     // Swagger
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
     implementation "io.springfox:springfox-bean-validators:${swaggerVersion}"
     implementation "org.json:json:20090211"
-    implementation "org.flywaydb:flyway-core:6.0.8"
     runtimeOnly "org.postgresql:postgresql:42.2.10"
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springVersion}"
-
+    compile group: 'org.springframework', name: 'spring-webflux', version: '5.2.7.RELEASE'
     // added to resolve JAXB-runtime issue thrown with java 11
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     implementation "info.picocli:picocli:3.9.6"
-}
-
-dependencies {
-    testImplementation "org.testcontainers:postgresql:${testContainerVersion}"
-    testImplementation "org.testcontainers:junit-jupiter:${testContainerVersion}"
-    testImplementation "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springReleaseVersion}"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.1"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.3.1"
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
 }
 
 group = 'com.scorz'
