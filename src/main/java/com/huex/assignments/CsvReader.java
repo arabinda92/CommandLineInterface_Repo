@@ -1,63 +1,46 @@
 package com.huex.assignments;
 
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import org.jline.utils.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+
 
 /**
  * Utility class for CSV data manipulation.
  */
 @Service
 public class CsvReader {
-  
-  public List<CSVModel> readCsvDataFromCSV(String csvFilePath) {
+
+  @Autowired
+  private Repository repository;
+
+  public void readCsvDataFromCSV(String csvFilePath) {
     Log.info("Inside readCsvDataFromCSV ");
     Log.debug("Reading CSV data from file located at "+csvFilePath);
-    List<CSVModel> list = new ArrayList<>();
-    Path pathToFile = Paths.get(csvFilePath);
-    try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
-      String line = br.readLine();
-      while (line != null) {
-        String[] attributes = line.split("\\t");
-        CSVModel csvModel = createCSVObj(attributes);
-        list.add(csvModel);
-        line = br.readLine();
+    try {
+      Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+      ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
+      strategy.setType(CSVModel.class);
+      String[] columns = new String[]{"uuid", "tstamp", "source", "date", "event_type", "event_category",
+        "event_action", "event_label", "event_value", "created_at", "last_updated_at", "location"};
+      strategy.setColumnMapping(columns);
+      CsvToBean<CSVModel> csvToBean = new CsvToBeanBuilder(reader).withMappingStrategy(strategy)
+        .withSkipLines(1).build();
+      Iterator<CSVModel> iterator = csvToBean.iterator();
+      while (iterator.hasNext()) {
+        CSVModel csvModel = iterator.next();
+        repository.save(csvModel);
       }
     } catch (IOException ioe) {
       ioe.printStackTrace();
     }
-    return list;
-  }
-
-  /**
-   * This method will map csv data to pojo attributes
-   * @param attributes
-   * @return model object
-   */
-  private CSVModel createCSVObj(String[] attributes) {
-    Log.info("Inside createCSVObj method");
-    Log.debug("Mapping CSV column data to respective attributes");
-    String uuid = attributes[0];
-    String tstamp = attributes[1];
-    String source = attributes[2];
-    String date = attributes[3];
-    String event_type = attributes[4];
-    String event_category = attributes[5];
-    String event_action = attributes[6];
-    String event_label = attributes[7];
-    Long event_value = Long.parseLong(attributes[8]);
-    String created_at = attributes[9];
-    String last_updated_at = attributes[10];
-    String location = attributes[11];
-    return new CSVModel(uuid, tstamp, source, date, event_type, event_category,
-      event_action, event_label, event_value, created_at, last_updated_at, location);
   }
 }

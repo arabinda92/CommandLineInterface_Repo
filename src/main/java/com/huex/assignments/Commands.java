@@ -36,8 +36,8 @@ public class Commands {
   public List<CSVModel> displayActiveUsers(@ShellOption({"-N", "--n"}) Long n,
                                            @ShellOption({"-N", "--orderBy"})
                                                     String orderBy) {
-    WebClient.Builder webclient = WebClient.builder();
-    List<CSVModel> responseList = webclient.build().get()
+    WebClient.Builder clearwebclient = WebClient.builder();
+    List<CSVModel> responseList = clearwebclient.build().get()
       .uri("http://localhost:8080/Reports/users/?orderBy="+orderBy+"&count="+n)
       .retrieve().bodyToMono(List.class).block();
     return responseList;

@@ -54,6 +54,7 @@ dependencies {
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     implementation "info.picocli:picocli:3.9.6"
+    compile "com.opencsv:opencsv:5.3"
 }
 
 group = 'com.scorz'
