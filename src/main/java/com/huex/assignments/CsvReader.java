@@ -22,6 +22,10 @@ public class CsvReader {
   @Autowired
   private Repository repository;
 
+  /**
+   * This method is for reading and parsing csv data
+   * @param csvFilePath
+   */
   public void readCsvDataFromCSV(String csvFilePath) {
     Log.info("Inside readCsvDataFromCSV ");
     Log.debug("Reading CSV data from file located at "+csvFilePath);
@@ -39,6 +43,7 @@ public class CsvReader {
         CSVModel csvModel = iterator.next();
         repository.save(csvModel);
       }
+      Log.debug("Csv data saved in DB successfully ");
     } catch (IOException ioe) {
       ioe.printStackTrace();
     }
